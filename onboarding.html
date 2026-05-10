@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Echo Byte — Welcome Onboard</title>
+  <!-- Prevent search engines from indexing this private page -->
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── Onboarding page extras ── */
+    body { background-color: #121212; }
+
+    .onboard-wrap {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 100px 20px 60px;
+    }
+
+    .onboard-logo {
+      height: 48px;
+      margin-bottom: 32px;
+    }
+
+    .step-indicator {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 36px;
+    }
+    .step-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #333;
+      transition: background 0.3s;
+    }
+    .step-dot.active { background: #1e90ff; }
+    .step-dot.done   { background: #0073e6; }
+
+    .card {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 16px;
+      padding: 40px 36px;
+      width: 100%;
+      max-width: 600px;
+      margin-bottom: 24px;
+    }
+
+    .card-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .card-sub {
+      color: #888;
+      font-size: 0.9rem;
+      margin-bottom: 28px;
+    }
+
+    /* Form elements */
+    .field {
+      margin-bottom: 18px;
+    }
+    .field label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #ccc;
+      margin-bottom: 6px;
+      letter-spacing: 0.03em;
+    }
+    .field label .req {
+      color: #1e90ff;
+      margin-left: 2px;
+    }
+    .field label .opt {
+      color: #555;
+      font-weight: 400;
+      font-size: 0.75rem;
+      margin-left: 6px;
+    }
+    .field input[type="text"],
+    .field input[type="email"],
+    .field input[type="tel"],
+    .field input[type="url"],
+    .field textarea,
+    .field select {
+      width: 100%;
+      background: #111;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      color: #fff;
+      padding: 12px 14px;
+      font-size: 0.95rem;
+      font-family: 'Arial', sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      border-color: #1e90ff;
+    }
+    .field textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+    .field select option { background: #222; }
+
+    /* Color palette picker */
+    .color-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .color-swatch-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .color-swatch-wrap input[type="color"] {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      border: 1px solid #2a2a2a;
+      background: none;
+      cursor: pointer;
+      padding: 2px;
+    }
+    .color-swatch-wrap span {
+      font-size: 0.7rem;
+      color: #666;
+    }
+    .color-hex {
+      width: 90px !important;
+      font-size: 0.8rem !important;
+    }
+
+    /* Upload area */
+    .upload-area {
+      border: 2px dashed #2a2a2a;
+      border-radius: 10px;
+      padding: 28px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.3s, background 0.3s;
+      position: relative;
+    }
+    .upload-area:hover, .upload-area.dragover {
+      border-color: #1e90ff;
+      background: rgba(30,144,255,0.05);
+    }
+    .upload-area input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+    .upload-icon { font-size: 2rem; margin-bottom: 8px; }
+    .upload-label { color: #888; font-size: 0.88rem; }
+    .upload-label strong { color: #1e90ff; }
+    .upload-preview {
+      display: none;
+      margin-top: 14px;
+    }
+    .upload-preview img {
+      max-height: 80px;
+      border-radius: 6px;
+      border: 1px solid #2a2a2a;
+    }
+    .upload-preview span {
+      display: block;
+      font-size: 0.78rem;
+      color: #666;
+      margin-top: 4px;
+    }
+
+    /* Row layout */
+    .field-row {
+      display: flex;
+      gap: 16px;
+    }
+    .field-row .field { flex: 1; }
+
+    /* Divider */
+    .section-divider {
+      border: none;
+      border-top: 1px solid #2a2a2a;
+      margin: 28px 0;
+    }
+
+    /* Payment card area */
+    .payment-notice {
+      background: rgba(30,144,255,0.08);
+      border: 1px solid rgba(30,144,255,0.2);
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 0.85rem;
+      color: #aaa;
+      margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .payment-notice .lock { font-size: 1rem; flex-shrink: 0; }
+
+    .card-input-row {
+      display: flex;
+      gap: 12px;
+    }
+    .card-input-row .field:first-child { flex: 2; }
+    .card-input-row .field:last-child  { flex: 1; }
+
+    .stripe-placeholder {
+      background: #111;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      padding: 12px 14px;
+      color: #555;
+      font-size: 0.88rem;
+      font-family: monospace;
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .stripe-placeholder .stripe-icon { color: #635bff; font-size: 1rem; }
+    .stripe-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.72rem;
+      color: #555;
+      margin-top: 8px;
+    }
+    .stripe-badge::before {
+      content: '🔒';
+      font-size: 0.75rem;
+    }
+
+    /* Nav / buttons */
+    .step-nav {
+      display: flex;
+      gap: 12px;
+      width: 100%;
+      max-width: 600px;
+      justify-content: flex-end;
+    }
+    .btn-back {
+      background: transparent;
+      border: 2px solid #2a2a2a;
+      color: #aaa;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: border-color 0.3s, color 0.3s;
+    }
+    .btn-back:hover { border-color: #555; color: #fff; }
+    .btn-next {
+      background: #1e90ff;
+      border: none;
+      color: white;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: background 0.3s;
+      flex: 1;
+    }
+    .btn-next:hover { background: #0073e6; }
+    .btn-next:disabled { background: #1a3a5a; color: #555; cursor: not-allowed; }
+
+    /* Success state */
+    .success-screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 60px 20px;
+      max-width: 500px;
+    }
+    .success-icon { font-size: 4rem; margin-bottom: 20px; }
+    .success-screen h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 12px; }
+    .success-screen p  { color: #aaa; font-size: 1rem; line-height: 1.6; }
+
+    /* Validation */
+    .field input.invalid,
+    .field textarea.invalid,
+    .field select.invalid {
+      border-color: #e05555;
+    }
+    .field-error {
+      font-size: 0.75rem;
+      color: #e05555;
+      margin-top: 4px;
+      display: none;
+    }
+
+    @media (max-width: 640px) {
+      .card { padding: 28px 20px; }
+      .field-row { flex-direction: column; gap: 0; }
+      .card-input-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="onboard-wrap" id="onboardWrap">
+
+    <img src="image_9009e402.png" alt="Echo Byte" class="onboard-logo">
+
+    <!-- Step dots -->
+    <div class="step-indicator" id="stepDots">
+      <div class="step-dot active" id="dot0"></div>
+      <div class="step-dot"        id="dot1"></div>
+      <div class="step-dot"        id="dot2"></div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+         STEP 1 — Business info (required)
+    ═════════════════════════════════════════ -->
+    <div class="card" id="step0">
+      <div class="card-title">Tell us about your business</div>
+      <div class="card-sub">This helps us build something that truly represents you.</div>
+
+      <div class="field">
+        <label>Business name <span class="req">*</span></label>
+        <input type="text" id="bizName" placeholder="e.g. Botha's Bakery" required>
+        <div class="field-error" id="err-bizName">Please enter your business name.</div>
+      </div>
+
+      <div class="field">
+        <label>Industry / niche <span class="req">*</span></label>
+        <input type="text" id="bizNiche" placeholder="e.g. Bakery, Law firm, Plumber…" required>
+        <div class="field-error" id="err-bizNiche">Please enter your industry.</div>
+      </div>
+
+      <div class="field">
+        <label>Contact email <span class="req">*</span></label>
+        <input type="email" id="bizEmail" placeholder="you@yourbusiness.co.za" required>
+        <div class="field-error" id="err-bizEmail">Please enter a valid email address.</div>
+      </div>
+
+      <div class="field">
+        <label>Contact phone <span class="req">*</span></label>
+        <input type="tel" id="bizPhone" placeholder="+27 82 000 0000" required>
+        <div class="field-error" id="err-bizPhone">Please enter a phone number.</div>
+      </div>
+
+      <hr class="section-divider">
+
+      <div class="field">
+        <label>Colour palette <span class="req">*</span>
+          <span style="color:#666; font-weight:400; font-size:0.75rem; margin-left:6px;">Pick up to 3 brand colours</span>
+        </label>
+        <div class="color-row">
+          <div class="color-swatch-wrap">
+            <input type="color" id="color1" value="#1e90ff">
+            <span>Primary</span>
+          </div>
+          <div class="color-swatch-wrap">
+            <input type="color" id="color2" value="#ffffff">
+            <span>Secondary</span>
+          </div>
+          <div class="color-swatch-wrap">
+            <input type="color" id="color3" value="#121212">
+            <span>Accent</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Upload your logo <span class="req">*</span></label>
+        <div class="upload-area" id="logoUploadArea">
+          <input type="file" id="logoFile" accept="image/*,.svg,.pdf" required>
+          <div class="upload-icon">🖼️</div>
+          <div class="upload-label"><strong>Click to upload</strong> or drag &amp; drop<br>PNG, SVG, JPG or PDF · max 10 MB</div>
+          <div class="upload-preview" id="logoPreview">
+            <img id="logoPreviewImg" src="" alt="Logo preview">
+            <span id="logoFileName"></span>
+          </div>
+        </div>
+        <div class="field-error" id="err-logo">Please upload your logo.</div>
+      </div>
+    </div><!-- /step0 -->
+
+    <!-- ════════════════════════════════════════
+         STEP 2 — Extra details (optional)
+    ═════════════════════════════════════════ -->
+    <div class="card" id="step1" style="display:none;">
+      <div class="card-title">A little more detail</div>
+      <div class="card-sub">All fields on this page are optional — fill in what you have.</div>
+
+      <div class="field">
+        <label>Banner / hero image <span class="opt">(optional)</span></label>
+        <div class="upload-area" id="bannerUploadArea">
+          <input type="file" id="bannerFile" accept="image/*">
+          <div class="upload-icon">🖼️</div>
+          <div class="upload-label"><strong>Click to upload</strong> or drag &amp; drop<br>PNG or JPG · ideally 1920×600 px · max 20 MB</div>
+          <div class="upload-preview" id="bannerPreview">
+            <img id="bannerPreviewImg" src="" alt="Banner preview">
+            <span id="bannerFileName"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Physical address <span class="opt">(optional)</span></label>
+        <textarea id="bizAddress" placeholder="123 Church Street&#10;Pretoria, 0001"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Website (if you already have one) <span class="opt">(optional)</span></label>
+        <input type="url" id="bizWebsite" placeholder="https://www.yourbusiness.co.za">
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Facebook page URL <span class="opt">(optional)</span></label>
+          <input type="url" id="bizFacebook" placeholder="https://facebook.com/yourpage">
+        </div>
+        <div class="field">
+          <label>Instagram handle <span class="opt">(optional)</span></label>
+          <input type="text" id="bizInstagram" placeholder="@yourhandle">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>About your business <span class="opt">(optional)</span>
+          <span style="color:#555; font-size:0.75rem;">— a short paragraph we can use as a starting point</span>
+        </label>
+        <textarea id="bizAbout" rows="4" placeholder="Tell us who you are, what you do, and who you help…"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Anything else we should know? <span class="opt">(optional)</span></label>
+        <textarea id="bizNotes" rows="3" placeholder="Special requests, important info, preferred style, etc."></textarea>
+      </div>
+    </div><!-- /step1 -->
+
+    <!-- ════════════════════════════════════════
+         STEP 3 — Payment
+    ═════════════════════════════════════════ -->
+    <div class="card" id="step2" style="display:none;">
+      <div class="card-title">Setup deposit</div>
+      <div class="card-sub">A 50% deposit is required before work begins. The balance is due on launch day.</div>
+
+      <div class="payment-notice">
+        <span class="lock">🔒</span>
+        Your card details are encrypted and processed securely by Stripe. Echo Byte never stores your card number.
+      </div>
+
+      <!--
+      ════════════════════════════════════════════════
+      STRIPE INTEGRATION — NOT YET ACTIVE
+      ════════════════════════════════════════════════
+      To activate:
+        1. Run:  npm install @stripe/stripe-js
+        2. Replace STRIPE_PUBLISHABLE_KEY below with your real key from stripe.com/dashboard
+        3. Uncomment the script block at the bottom of this file
+        4. Remove the .stripe-placeholder mock fields below
+        5. Ensure your backend creates a PaymentIntent and returns the client_secret
+
+      import { loadStripe } from '@stripe/stripe-js';
+      const stripe = await loadStripe('STRIPE_PUBLISHABLE_KEY');
+      const elements = stripe.elements();
+      const cardElement = elements.create('card', { style: { ... } });
+      cardElement.mount('#stripe-card-element');
+
+      On submit:
+      const { paymentIntent, error } = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: { card: cardElement }
+      });
+      ════════════════════════════════════════════════
+      -->
+
+      <!-- MOCK STRIPE UI — remove these 3 fields when Stripe is live -->
+      <div class="field">
+        <label>Cardholder name</label>
+        <div class="stripe-placeholder">
+          <span class="stripe-icon">💳</span>
+          <span>Card element mounts here once Stripe is configured</span>
+        </div>
+        <div class="stripe-badge">Powered by Stripe — coming soon</div>
+      </div>
+      <!-- /MOCK STRIPE UI -->
+
+      <!-- This div is where the real Stripe card element will mount -->
+      <div id="stripe-card-element" style="display:none;"></div>
+      <div id="stripe-card-errors" style="color:#e05555; font-size:0.82rem; margin-top:6px;"></div>
+
+      <div class="payment-notice" style="margin-top:20px; margin-bottom:0;">
+        <span class="lock">ℹ️</span>
+        After payment you'll receive an email confirmation and we'll be in touch within 1 business day to kick things off.
+      </div>
+    </div><!-- /step2 -->
+
+    <!-- Success screen -->
+    <div class="success-screen" id="successScreen">
+      <div class="success-icon">🎉</div>
+      <h2>You're all set!</h2>
+      <p>We've received your details and your deposit payment. <strong>Watch your inbox</strong> — we'll be in touch within 1 business day to start building your site.</p>
+      <br>
+      <p style="color:#555; font-size:0.85rem;">Questions? <a href="mailto:hello@echobyte.co.za" style="color:#1e90ff;">hello@echobyte.co.za</a></p>
+    </div>
+
+    <!-- Navigation buttons -->
+    <div class="step-nav" id="stepNav">
+      <button class="btn-back" id="btnBack" style="display:none;" onclick="prevStep()">← Back</button>
+      <button class="btn-next" id="btnNext" onclick="nextStep()">Next →</button>
+    </div>
+
+  </div><!-- /onboard-wrap -->
+
+  <script>
+    // ═══════════════════════════════════════════════
+    // State
+    // ═══════════════════════════════════════════════
+    let currentStep = 0;
+    const totalSteps = 3;
+    let logoFileData   = null;
+    let bannerFileData = null;
+
+    // ═══════════════════════════════════════════════
+    // Step navigation
+    // ═══════════════════════════════════════════════
+    function showStep(n) {
+      for (let i = 0; i < totalSteps; i++) {
+        const el = document.getElementById('step' + i);
+        if (el) el.style.display = (i === n) ? 'block' : 'none';
+        const dot = document.getElementById('dot' + i);
+        if (dot) {
+          dot.classList.toggle('active', i === n);
+          dot.classList.toggle('done',   i < n);
+        }
+      }
+      document.getElementById('btnBack').style.display = n > 0 ? 'inline-block' : 'none';
+      const btnNext = document.getElementById('btnNext');
+      if (n === totalSteps - 1) {
+        btnNext.textContent = 'Submit & Pay →';
+      } else {
+        btnNext.textContent = 'Next →';
+      }
+      currentStep = n;
+    }
+
+    function nextStep() {
+      if (!validateStep(currentStep)) return;
+      if (currentStep < totalSteps - 1) {
+        showStep(currentStep + 1);
+      } else {
+        submitForm();
+      }
+    }
+
+    function prevStep() {
+      if (currentStep > 0) showStep(currentStep - 1);
+    }
+
+    // ═══════════════════════════════════════════════
+    // Validation
+    // ═══════════════════════════════════════════════
+    function validateStep(n) {
+      if (n !== 0) return true; // only step 1 has required fields
+      let valid = true;
+
+      function check(id, errId, testFn) {
+        const el = document.getElementById(id);
+        const err = document.getElementById(errId);
+        const ok = testFn(el);
+        el.classList.toggle('invalid', !ok);
+        if (err) err.style.display = ok ? 'none' : 'block';
+        if (!ok) valid = false;
+      }
+
+      check('bizName',  'err-bizName',  el => el.value.trim().length > 0);
+      check('bizNiche', 'err-bizNiche', el => el.value.trim().length > 0);
+      check('bizEmail', 'err-bizEmail', el => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim()));
+      check('bizPhone', 'err-bizPhone', el => el.value.trim().length > 6);
+
+      // Logo check
+      const logoErr = document.getElementById('err-logo');
+      if (!logoFileData) {
+        logoErr.style.display = 'block';
+        valid = false;
+      } else {
+        logoErr.style.display = 'none';
+      }
+
+      return valid;
+    }
+
+    // ═══════════════════════════════════════════════
+    // File upload helpers
+    // ═══════════════════════════════════════════════
+    function setupUpload(inputId, previewId, previewImgId, fileNameId, areaId, onFile) {
+      const input   = document.getElementById(inputId);
+      const area    = document.getElementById(areaId);
+      const preview = document.getElementById(previewId);
+      const img     = document.getElementById(previewImgId);
+      const name    = document.getElementById(fileNameId);
+
+      function handleFile(file) {
+        if (!file) return;
+        onFile(file);
+        name.textContent = file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
+        if (file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = e => { img.src = e.target.result; preview.style.display = 'block'; };
+          reader.readAsDataURL(file);
+        } else {
+          img.style.display = 'none';
+          preview.style.display = 'block';
+        }
+      }
+
+      input.addEventListener('change', () => handleFile(input.files[0]));
+
+      area.addEventListener('dragover', e => { e.preventDefault(); area.classList.add('dragover'); });
+      area.addEventListener('dragleave', () => area.classList.remove('dragover'));
+      area.addEventListener('drop', e => {
+        e.preventDefault();
+        area.classList.remove('dragover');
+        handleFile(e.dataTransfer.files[0]);
+      });
+    }
+
+    setupUpload('logoFile',   'logoPreview',   'logoPreviewImg',   'logoFileName',   'logoUploadArea',
+      file => {
+        const reader = new FileReader();
+        reader.onload = e => { logoFileData = { name: file.name, type: file.type, data: e.target.result }; };
+        reader.readAsDataURL(file);
+      }
+    );
+
+    setupUpload('bannerFile', 'bannerPreview', 'bannerPreviewImg', 'bannerFileName', 'bannerUploadArea',
+      file => {
+        const reader = new FileReader();
+        reader.onload = e => { bannerFileData = { name: file.name, type: file.type, data: e.target.result }; };
+        reader.readAsDataURL(file);
+      }
+    );
+
+    // ═══════════════════════════════════════════════
+    // Submit — collects all data & saves client file
+    // ═══════════════════════════════════════════════
+    function submitForm() {
+      // Gather all form values
+      const clientData = {
+        submittedAt:   new Date().toISOString(),
+        businessName:  document.getElementById('bizName').value.trim(),
+        niche:         document.getElementById('bizNiche').value.trim(),
+        email:         document.getElementById('bizEmail').value.trim(),
+        phone:         document.getElementById('bizPhone').value.trim(),
+        colours: {
+          primary:   document.getElementById('color1').value,
+          secondary: document.getElementById('color2').value,
+          accent:    document.getElementById('color3').value,
+        },
+        address:    document.getElementById('bizAddress').value.trim(),
+        website:    document.getElementById('bizWebsite').value.trim(),
+        facebook:   document.getElementById('bizFacebook').value.trim(),
+        instagram:  document.getElementById('bizInstagram').value.trim(),
+        about:      document.getElementById('bizAbout').value.trim(),
+        notes:      document.getElementById('bizNotes').value.trim(),
+        logo:       logoFileData   ? { name: logoFileData.name,   type: logoFileData.type   } : null,
+        banner:     bannerFileData ? { name: bannerFileData.name, type: bannerFileData.type } : null,
+      };
+
+      // ── Save client text file ──────────────────────
+      // Builds a human-readable .txt file with all the
+      // business data and triggers a download.
+      const lines = [
+        '═══════════════════════════════════════',
+        '  ECHO BYTE — CLIENT ONBOARDING DATA',
+        '═══════════════════════════════════════',
+        '',
+        'Submitted:        ' + clientData.submittedAt,
+        '',
+        '── BUSINESS INFO ───────────────────────',
+        'Business Name:    ' + clientData.businessName,
+        'Industry / Niche: ' + clientData.niche,
+        'Email:            ' + clientData.email,
+        'Phone:            ' + clientData.phone,
+        '',
+        '── BRANDING ────────────────────────────',
+        'Primary colour:   ' + clientData.colours.primary,
+        'Secondary colour: ' + clientData.colours.secondary,
+        'Accent colour:    ' + clientData.colours.accent,
+        'Logo file:        ' + (clientData.logo   ? clientData.logo.name   : 'Not provided'),
+        'Banner file:      ' + (clientData.banner ? clientData.banner.name : 'Not provided'),
+        '',
+        '── CONTACT & ONLINE ────────────────────',
+        'Address:          ' + (clientData.address   || '—'),
+        'Website:          ' + (clientData.website   || '—'),
+        'Facebook:         ' + (clientData.facebook  || '—'),
+        'Instagram:        ' + (clientData.instagram || '—'),
+        '',
+        '── ABOUT ───────────────────────────────',
+        clientData.about || '—',
+        '',
+        '── EXTRA NOTES ─────────────────────────',
+        clientData.notes || '—',
+        '',
+        '═══════════════════════════════════════',
+        '  Files to collect separately:',
+        '  • ' + (clientData.logo   ? clientData.logo.name   : 'Logo — not uploaded'),
+        '  • ' + (clientData.banner ? clientData.banner.name : 'Banner — not uploaded'),
+        '═══════════════════════════════════════',
+      ];
+
+      const safeName = clientData.businessName.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+      const txtBlob  = new Blob([lines.join('\n')], { type: 'text/plain' });
+      const txtUrl   = URL.createObjectURL(txtBlob);
+      const txtLink  = document.createElement('a');
+      txtLink.href     = txtUrl;
+      txtLink.download = safeName + '_echobyte_onboarding.txt';
+      txtLink.click();
+      URL.revokeObjectURL(txtUrl);
+
+      // ── Download logo file ─────────────────────────
+      if (logoFileData) {
+        const logoLink = document.createElement('a');
+        logoLink.href     = logoFileData.data;
+        logoLink.download = 'logo_' + logoFileData.name;
+        logoLink.click();
+      }
+
+      // ── Download banner file ───────────────────────
+      if (bannerFileData) {
+        const bannerLink = document.createElement('a');
+        bannerLink.href     = bannerFileData.data;
+        bannerLink.download = 'banner_' + bannerFileData.name;
+        bannerLink.click();
+      }
+
+      // ══════════════════════════════════════════════
+      // STRIPE PAYMENT — NOT YET ACTIVE
+      // ══════════════════════════════════════════════
+      /*
+      // 1. Ask your backend to create a PaymentIntent:
+      const res = await fetch('/api/create-payment-intent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          businessName: clientData.businessName,
+          email:        clientData.email,
+          // amount is set server-side based on chosen plan
+        }),
+      });
+      const { clientSecret } = await res.json();
+
+      // 2. Confirm the card payment:
+      const { paymentIntent, error } = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: cardElement,
+          billing_details: { name: clientData.businessName, email: clientData.email },
+        },
+      });
+
+      if (error) {
+        document.getElementById('stripe-card-errors').textContent = error.message;
+        return;
+      }
+
+      // 3. On success, fall through to show success screen below.
+      */
+      // ══════════════════════════════════════════════
+
+      // Show success screen
+      document.getElementById('step2').style.display  = 'none';
+      document.getElementById('stepDots').style.display = 'none';
+      document.getElementById('stepNav').style.display  = 'none';
+      const s = document.getElementById('successScreen');
+      s.style.display = 'flex';
+    }
+
+    // Init
+    showStep(0);
+  </script>
+
+  <!--
+  ════════════════════════════════════════════════
+  STRIPE JS — uncomment when going live
+  ════════════════════════════════════════════════
+  <script src="https://js.stripe.com/v3/"></script>
+  <script>
+    const stripe = Stripe('STRIPE_PUBLISHABLE_KEY');
+    const elements = stripe.elements();
+    const cardElement = elements.create('card', {
+      style: {
+        base: {
+          color: '#ffffff',
+          fontFamily: 'Arial, sans-serif',
+          fontSize: '15px',
+          '::placeholder': { color: '#555' },
+        },
+        invalid: { color: '#e05555' },
+      },
+    });
+    cardElement.mount('#stripe-card-element');
+    document.getElementById('stripe-card-element').style.display = 'block';
+  </script>
+  -->
+
+</body>
+</html>
