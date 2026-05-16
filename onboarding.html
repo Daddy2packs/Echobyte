@@ -635,7 +635,8 @@
       document.getElementById('prev-footer').style.background     = bgDark;
       document.getElementById('prev-footer').style.borderTop      = '1px solid ' + border;
       document.getElementById('prev-footer-link').style.color     = primary;
-      document.getElementById('prev-footer-text').style.color     = mutedTxt;
+      document.getElementById('prev-footer-text').style.color = mutedTxt;
+      document.getElementById('prev-footer-text').textContent = '© 2026 ' + bizName + '. All rights reserved.';
     }
 
     document.getElementById('color1').addEventListener('input', updatePreview);
