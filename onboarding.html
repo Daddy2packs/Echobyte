@@ -6,6 +6,7 @@
   <title>Echo Byte — Welcome Onboard</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -328,6 +329,10 @@
     // ═══════════════════════════════════════════════
     // State
     // ═══════════════════════════════════════════════
+   const supabase = window.supabase.createClient(
+  'https://xtzmredbdwcrozjfario.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh0em1yZWRiZHdjcm96amZhcmlvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5NDU3NDIsImV4cCI6MjA5NDUyMTc0Mn0.QXJNbGHpDni8zs_eBfcEnIh5MCD6mT_nPTOiqCLYM9o');
+    
     let currentStep  = 0;
     const totalSteps = 3;
     let logoFileData   = null;
@@ -356,7 +361,75 @@
       if (currentStep < totalSteps - 1) {
         showStep(currentStep + 1);
       } else {
-        submitForm();
+        async function submitForm() {
+  const btnNext = document.getElementById('btnNext');
+  btnNext.textContent = 'Besig om te stoor…';
+  btnNext.disabled = true;
+
+  const bizName    = document.getElementById('bizName').value.trim();
+  const safeName   = bizName.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+  const folderPath = safeName + '_' + Date.now();
+
+  let logoPath   = null;
+  let bannerPath = null;
+
+  // Upload logo
+  if (logoFileData) {
+    const logoBlob = await fetch(logoFileData.data).then(r => r.blob());
+    const { data, error } = await supabase.storage
+      .from('client-files')
+      .upload(folderPath + '/logo_' + logoFileData.name, logoBlob, {
+        contentType: logoFileData.type
+      });
+    if (!error) logoPath = data.path;
+  }
+
+  // Upload banner
+  if (bannerFileData) {
+    const bannerBlob = await fetch(bannerFileData.data).then(r => r.blob());
+    const { data, error } = await supabase.storage
+      .from('client-files')
+      .upload(folderPath + '/banner_' + bannerFileData.name, bannerBlob, {
+        contentType: bannerFileData.type
+      });
+    if (!error) bannerPath = data.path;
+  }
+
+  // Stoor teks data in databasis
+  const { error: dbError } = await supabase
+    .from('submissions')
+    .insert({
+      business_name:      bizName,
+      niche:              document.getElementById('bizNiche').value.trim(),
+      email:              document.getElementById('bizEmail').value.trim(),
+      phone:              document.getElementById('bizPhone').value.trim(),
+      primary_colour:     document.getElementById('color1').value,
+      secondary_colour:   document.getElementById('color2').value,
+      background_colour:  document.getElementById('color3').value,
+      address:            document.getElementById('bizAddress').value.trim(),
+      website:            document.getElementById('bizWebsite').value.trim(),
+      facebook:           document.getElementById('bizFacebook').value.trim(),
+      instagram:          document.getElementById('bizInstagram').value.trim(),
+      about:              document.getElementById('bizAbout').value.trim(),
+      notes:              document.getElementById('bizNotes').value.trim(),
+      logo_path:          logoPath,
+      banner_path:        bannerPath,
+    });
+
+  if (dbError) {
+    btnNext.textContent = 'Submit & Pay →';
+    btnNext.disabled = false;
+    alert('Iets het verkeerd gegaan. Probeer asseblief weer.');
+    console.error(dbError);
+    return;
+  }
+
+  // Wys sukses skerm
+  document.getElementById('step2').style.display    = 'none';
+  document.getElementById('stepDots').style.display = 'none';
+  document.getElementById('stepNav').style.display  = 'none';
+  document.getElementById('successScreen').style.display = 'flex';
+};
       }
     }
 
