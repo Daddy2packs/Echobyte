@@ -242,7 +242,7 @@
 
   <script>
     // ── Supabase ───────────────────────────────────
-    const supabase = window.supabase.createClient(
+    const sb = window.supabase.createClient(
       'https://xtzmredbdwcrozjfario.supabase.co',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh0em1yZWRiZHdjcm96amZhcmlvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5NDU3NDIsImV4cCI6MjA5NDUyMTc0Mn0.QXJNbGHpDni8zs_eBfcEnIh5MCD6mT_nPTOiqCLYM9o'
     );
@@ -384,7 +384,7 @@
 
       if (logoFileData) {
         const logoBlob = await fetch(logoFileData.data).then(r => r.blob());
-        const { data, error } = await supabase.storage
+        const { data, error } = await sb.storage
           .from('client-files')
           .upload(folderPath + '/logo_' + logoFileData.name, logoBlob, { contentType: logoFileData.type });
         if (!error) logoPath = data.path;
@@ -392,15 +392,13 @@
 
       if (bannerFileData) {
         const bannerBlob = await fetch(bannerFileData.data).then(r => r.blob());
-        const { data, error } = await supabase.storage
+        const { data, error } = await sb.storage
           .from('client-files')
           .upload(folderPath + '/banner_' + bannerFileData.name, bannerBlob, { contentType: bannerFileData.type });
         if (!error) bannerPath = data.path;
       }
 
-      const { error: dbError } = await supabase
-        .from('submissions')
-        .insert({
+      const { error: dbError } = await sb.from('submissions').insert({
           business_name:     bizName,
           niche:             document.getElementById('bizNiche').value.trim(),
           email:             document.getElementById('bizEmail').value.trim(),
