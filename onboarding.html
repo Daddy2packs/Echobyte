@@ -398,7 +398,7 @@
         if (!error) bannerPath = data.path;
       }
 
-      const { error: dbError } = await sb.from('submissions').insert({
+      const { error: dbError } = await sb.from('Submissions').insert({
           business_name:     bizName,
           niche:             document.getElementById('bizNiche').value.trim(),
           email:             document.getElementById('bizEmail').value.trim(),
