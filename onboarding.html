@@ -91,9 +91,22 @@
             </div>
           </div>
 
+      <div class="field">
+        <label>Upload your logo <span class="req">*</span></label>
+        <div class="upload-area" id="logoUploadArea">
+          <input type="file" id="logoFile" accept="image/*,.svg,.pdf" required>
+          <div class="upload-icon">🖼️</div>
+          <div class="upload-label"><strong>Click to upload</strong> or drag &amp; drop<br>PNG, SVG, JPG or PDF · max 10 MB</div>
+          <div class="upload-preview" id="logoPreview">
+            <img id="logoPreviewImg" src="" alt="Logo preview">
+            <span id="logoFileName"></span>
+          </div>
         </div>
+        <div class="field-error" id="err-logo">Please upload your logo.</div>
+      </div>
+    </div>
 
-        <!-- Live website preview -->
+     <!-- Live website preview -->
         <div style="
           border-radius: 10px;
           overflow: hidden;
@@ -191,24 +204,9 @@
             <div id="prev-footer-link" style="font-size:0.63rem; color:#4f8eff;">Contact us</div>
           </div>
         </div>
-        <!-- /Live preview -->
-
-      </div>
-
-      <div class="field">
-        <label>Upload your logo <span class="req">*</span></label>
-        <div class="upload-area" id="logoUploadArea">
-          <input type="file" id="logoFile" accept="image/*,.svg,.pdf" required>
-          <div class="upload-icon">🖼️</div>
-          <div class="upload-label"><strong>Click to upload</strong> or drag &amp; drop<br>PNG, SVG, JPG or PDF · max 10 MB</div>
-          <div class="upload-preview" id="logoPreview">
-            <img id="logoPreviewImg" src="" alt="Logo preview">
-            <span id="logoFileName"></span>
-          </div>
-        </div>
-        <div class="field-error" id="err-logo">Please upload your logo.</div>
-      </div>
-    </div><!-- /step0 -->
+        <!-- /Live preview -->    
+        
+    <!-- /step0 -->
 
     <!-- ════════════════════════════════════════
          STEP 2 — Extra details (optional)
