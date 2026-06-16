@@ -102,13 +102,60 @@
     </div>
   </section>
 
-  <footer>
-    <p>© 2026 Echo Byte. All rights reserved.</p>
-    <div class="footer-links">
-      <a href="PrivacyAgreement.html">Privacy Policy</a>
-      <a href="TandCs.html">Terms &amp; Conditions</a>
+   <footer class="footer-large">
+  <div class="footer-container">
+
+    <div class="footer-brand">
+      <img src="Logo_transparntBG.png" alt="Echo Byte" class="footer-logo">
+
+      <p>
+        Practical, effective technology solutions designed for individuals
+        and businesses that value reliability and simplicity.
+      </p>
     </div>
-  </footer>
+
+    <div class="footer-column">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/about.html">About Us</a></li>
+        <li><a href="/planne.html">Plans</a></li>
+        <li><a href="/services.html">Services</a></li>
+        <li><a href="/kontak.html">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-column">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="/privacyagreement.html">Privacy Agreement</a></li>
+        <li><a href="/TandCs.html">Terms & Conditions</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 Echo Byte. All rights reserved.</p>
+  </div>
+</footer>
+
+  <script>
+    let footer = document.querySelector('.footer-large');
+
+    window.addEventListener('scroll', () => {
+     let scrollY = window.scrollY;
+     let docHeight = document.body.scrollHeight - window.innerHeight;
+
+     if (scrollY > docHeight * 0.7) {
+       footer.classList.add('footer-expanded');
+       footer.classList.remove('footer-collapsed');
+     } else {
+       footer.classList.add('footer-collapsed');
+        footer.classList.remove('footer-expanded');
+     }
+    });
+  </script>
 
   <script>
     const toggle = document.getElementById('menuToggle');
