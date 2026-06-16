@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Echobyte</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <a href="/" style="display:flex;align-items:center;gap:10px;">
+    <img src="Logo_transparntBG.png" alt="Echo Byte" class="logo-img">
+  </a>
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/Portfolio.html" class="active">Portfolio</a></li>
+      <li><a href="/kontak.html" class="nav-cta">Get Started</a></li>
+    </ul>
+  </nav>
+  <div class="menu-toggle"><span></span><span></span><span></span></div>
+</header>
+
+<section class="page-hero">
+  <span class="section-tag">Our Work</span>
+  <h1 class="section-title">Portfolio</h1>
+  <p class="section-sub">A look at the websites we've designed, built, and launched for clients across a range of industries.</p>
+</section>
+
+<section class="portfolio-page">
+  <div class="portfolio-wrap">
+
+    <!-- ============================================================
+         EMPTY STATE
+         Shown while no projects have been published yet.
+         Once your first project card has been pasted in below,
+         delete (or comment out) this entire div.
+         ============================================================ -->
+    <div class="portfolio-empty fade-in">
+      <div class="portfolio-empty-icon">🚧</div>
+      <h2>No projects published yet</h2>
+      <p>We're just getting started — our first client launches will be showcased here soon. Check back shortly!</p>
+    </div>
+
+
+    <!-- ============================================================
+         PROJECT TEMPLATE — FOR YOUR DELPHI TOSTRING TOOL
+         ============================================================
+
+         This block is fully commented out so it has zero effect on
+         the live page. Copy the token list below into your Delphi
+         ToString method and let it do the string replacement.
+
+         TOKENS YOUR TOOL MUST FILL IN:
+           {{NICHE}}  ->  Niche / industry  (e.g. "Restaurants & Cafés")
+           {{NAME}}   ->  Business / project name  (e.g. "Bayside Bistro")
+           {{URL}}    ->  Live site URL  (e.g. "https://baysidebistro.co.za")
+           {{DATE}}   ->  Completion month + year  (e.g. "June 2026")
+
+         ── HOW TO PASTE YOUR OUTPUT ─────────────────────────────
+
+         CASE 1 — Brand-new niche (first project in that industry):
+           Uncomment the full NICHE GROUP block (start → end) and
+           paste it just before the closing </div> of .portfolio-wrap
+           (i.e. before the "PASTE NEW BLOCKS ABOVE THIS LINE" comment).
+           Also delete the empty-state div above if this is the
+           very first project on the page.
+
+         CASE 2 — Existing niche already on the page:
+           Uncomment only the PROJECT CARD block (start → end) and
+           paste it inside that niche's .portfolio-grid, right after
+           the last existing .project-card.
+
+         ── ICON GUIDE (swap 🌐 for something niche-appropriate) ──
+           🍽️  Restaurants / Food & Beverage
+           🛒  Retail / E-commerce
+           💼  Professional Services / B2B
+           🏠  Real Estate / Property
+           🏋️  Health, Fitness & Wellness
+           💇  Beauty & Salons
+           🎓  Education & Training
+           🚗  Automotive
+           🌐  General / Tech / Other
+
+         ============================================================ -->
+
+    <!--
+
+    <!-- NICHE GROUP - START (paste this whole block for a brand-new niche) -->
+    <div class="niche-group">
+      <h2 class="niche-title">{{NICHE}}</h2>
+      <div class="portfolio-grid">
+
+        <!-- PROJECT CARD - START -->
+        <div class="project-card">
+          <div class="project-visual">
+            🌐
+            <span class="project-status">&#9679; Live</span>
+          </div>
+          <div class="project-body">
+            <span class="project-niche-tag">{{NICHE}}</span>
+            <h3 class="project-name">{{NAME}}</h3>
+            <p class="project-date">Launched {{DATE}}</p>
+            <a href="{{URL}}" target="_blank" rel="noopener noreferrer" class="project-link">Visit live site &rarr;</a>
+          </div>
+        </div>
+        <!-- PROJECT CARD - END -->
+
+      </div>
+    </div>
+    <!-- NICHE GROUP - END -->
+
+    -->
+
+
+    <!-- PASTE NEW PROJECT BLOCKS ABOVE THIS LINE -->
+
+  </div><!-- end .portfolio-wrap -->
+</section>
+
+<footer>
+  <p>&copy; 2026 Echobyte.co.za — All rights reserved.</p>
+  <div class="footer-links">
+    <a href="/PrivacyAgreement.html">Privacy Policy</a>
+    <a href="/TandCs.html">Terms &amp; Conditions</a>
+  </div>
+</footer>
+
+<script>
+  const menuToggle = document.querySelector('.menu-toggle');
+  const nav = document.querySelector('nav');
+  if (menuToggle && nav) {
+    menuToggle.addEventListener('click', () => nav.classList.toggle('open'));
+  }
+</script>
+
+</body>
+</html>
