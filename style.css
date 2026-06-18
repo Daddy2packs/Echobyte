@@ -1162,6 +1162,7 @@ section {
 }
 
 /* ── Footer ──────────────────────────────────────── */
+
 .footer-reveal {
   position: relative;
   height: 60px;
@@ -1174,18 +1175,20 @@ section {
 }
 
 .footer-reveal.expanded {
-  max-height: 2000px;;
+ height: 500px;
 }
 
 /* copyright bar */
 
 .footer-preview {
-   min-height: 60px;
-  padding: 0 20px calc(12px + env(safe-area-inset-bottom));
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-bottom: 1px solid var(--border);
+  padding: 0 20px calc(10px + env(safe-area-inset-bottom));
 }
+
 
 .footer-preview p {
   margin: 0;
@@ -1196,8 +1199,7 @@ section {
 /* footer content */
 
 .footer-large {
-  padding: 50px 20px;
-  padding-bottom: 80px;
+  padding: 40px 20px;
 }
 
 .footer-container {
