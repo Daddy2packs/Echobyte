@@ -8,22 +8,19 @@
 </head>
 <body>
 
- <header>
-    <a href="/" style="display:flex;align-items:center;gap:10px;">
+<header>
+  <a href="/" style="display:flex;align-items:center;gap:10px;">
     <img src="Logo_transparntBG.png" alt="Echo Byte" class="logo-img">
   </a>
-    <div class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
-      <span></span><span></span><span></span>
-    </div>
-    <nav id="mainNav">
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="planne.html" class="active">Plans</a></li>
-        <li><a href="portfolio.html" >Portfolio</a></li>
-        <li><a href="kontak.html" class="nav-cta">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
+  <nav id="mainNav">
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/Portfolio.html" class="active">Portfolio</a></li>
+      <li><a href="/kontak.html" class="nav-cta">Get Started</a></li>
+    </ul>
+  </nav>
+  <div class="menu-toggle" id="menuToggle" aria-label="Toggle menu"><span></span><span></span><span></span></div>
+</header>
 
 <section class="page-hero">
   <span class="section-tag">Our Work</span>
@@ -41,8 +38,7 @@
          delete (or comment out) this entire div.
          ============================================================ -->
     <section class="portfolio">
-<br/>
-
+  <br/>
   <div class="services-grid">
 
     <div class="service-card fade-in">
@@ -55,7 +51,7 @@
     </div>
 
   </div>
-<br/>
+  <br/>
 </section>
 
 
@@ -183,9 +179,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let startY = 0;
 
-  const nearBottom = () =>
-    window.innerHeight + window.scrollY >=
-    document.documentElement.scrollHeight - 10;
+  // Page is too short to scroll OR user is at the bottom
+  const nearBottom = () => {
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    if (scrollable <= 0) return true; // page fits in viewport — always "at bottom"
+    return window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 10;
+  };
 
   // DESKTOP (mouse wheel)
   window.addEventListener("wheel", (e) => {
@@ -220,7 +219,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }, { passive: true });
 });
-  
+</script>
+
 <script>
 const toggle = document.getElementById("menuToggle");
 const nav = document.getElementById("mainNav");
