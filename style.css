@@ -1175,7 +1175,6 @@ section {
 /* copyright bar */
 
 .footer-preview {
-  .footer-preview {
   max-height: 56px;
   display: flex;
   align-items: center;
@@ -1183,7 +1182,6 @@ section {
   border-bottom: 1px solid var(--border);
   padding: 16px 20px;
   padding-bottom: calc(16px + env(safe-area-inset-bottom));
-}
 }
 
 
