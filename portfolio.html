@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Portfolio — Echobyte</title>
 <link rel="stylesheet" href="style.css">
 </head>
@@ -15,7 +15,7 @@
   <nav id="mainNav">
     <ul>
       <li><a href="/">Home</a></li>
-      <li><a href="/planne.html" class="active">Plans</a></li>
+      <li><a href="/Portfolio.html" class="active">Portfolio</a></li>
       <li><a href="/kontak.html" class="nav-cta">Get Started</a></li>
     </ul>
   </nav>
@@ -174,41 +174,49 @@
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const footer = document.querySelector(".footer-reveal");
+
   if (!footer) return;
-
-  // Meet die werklike hoogte van die footer inhoud
-  const preview = footer.querySelector(".footer-preview");
-  const large = footer.querySelector(".footer-large");
-  const previewH = preview ? preview.offsetHeight : 60;
-  const largeH = large ? large.scrollHeight : 400;
-  const totalH = previewH + largeH;
-
-  footer.style.setProperty("--footer-expanded-height", totalH + "px");
-  footer.style.height = previewH + "px";
 
   let startY = 0;
 
+  // Page is too short to scroll OR user is at the bottom
   const nearBottom = () => {
     const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-    if (scrollable <= 0) return true;
+    if (scrollable <= 0) return true; // page fits in viewport — always "at bottom"
     return window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 10;
   };
 
+  // DESKTOP (mouse wheel)
   window.addEventListener("wheel", (e) => {
     if (!nearBottom()) return;
-    if (e.deltaY > 0) footer.classList.add("expanded");
-    if (e.deltaY < 0) footer.classList.remove("expanded");
+
+    if (e.deltaY > 0) {
+      footer.classList.add("expanded");
+    }
+
+    if (e.deltaY < 0) {
+      footer.classList.remove("expanded");
+    }
   }, { passive: true });
 
+  // MOBILE (touch)
   window.addEventListener("touchstart", (e) => {
     startY = e.touches[0].clientY;
   }, { passive: true });
 
   window.addEventListener("touchmove", (e) => {
     if (!nearBottom()) return;
-    const diff = startY - e.touches[0].clientY;
-    if (diff > 25) footer.classList.add("expanded");
-    if (diff < -25) footer.classList.remove("expanded");
+
+    const y = e.touches[0].clientY;
+    const diff = startY - y;
+
+    if (diff > 25) {
+      footer.classList.add("expanded"); // swipe up
+    }
+
+    if (diff < -25) {
+      footer.classList.remove("expanded"); // swipe down
+    }
   }, { passive: true });
 });
 </script>

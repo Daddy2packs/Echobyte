@@ -136,41 +136,46 @@
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const footer = document.querySelector(".footer-reveal");
+
   if (!footer) return;
-
-  // Meet die werklike hoogte van die footer inhoud
-  const preview = footer.querySelector(".footer-preview");
-  const large = footer.querySelector(".footer-large");
-  const previewH = preview ? preview.offsetHeight : 60;
-  const largeH = large ? large.scrollHeight : 400;
-  const totalH = previewH + largeH;
-
-  footer.style.setProperty("--footer-expanded-height", totalH + "px");
-  footer.style.height = previewH + "px";
 
   let startY = 0;
 
-  const nearBottom = () => {
-    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-    if (scrollable <= 0) return true;
-    return window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 10;
-  };
+  const nearBottom = () =>
+    window.innerHeight + window.scrollY >=
+    document.documentElement.scrollHeight - 60;
 
+  // DESKTOP (mouse wheel)
   window.addEventListener("wheel", (e) => {
     if (!nearBottom()) return;
-    if (e.deltaY > 0) footer.classList.add("expanded");
-    if (e.deltaY < 0) footer.classList.remove("expanded");
+
+    if (e.deltaY > 0) {
+      footer.classList.add("expanded");
+    }
+
+    if (e.deltaY < 0) {
+      footer.classList.remove("expanded");
+    }
   }, { passive: true });
 
+  // MOBILE (touch)
   window.addEventListener("touchstart", (e) => {
     startY = e.touches[0].clientY;
   }, { passive: true });
 
   window.addEventListener("touchmove", (e) => {
     if (!nearBottom()) return;
-    const diff = startY - e.touches[0].clientY;
-    if (diff > 25) footer.classList.add("expanded");
-    if (diff < -25) footer.classList.remove("expanded");
+
+    const y = e.touches[0].clientY;
+    const diff = startY - y;
+
+    if (diff > 25) {
+      footer.classList.add("expanded"); // swipe up
+    }
+
+    if (diff < -25) {
+      footer.classList.remove("expanded"); // swipe down
+    }
   }, { passive: true });
 });
 </script>
