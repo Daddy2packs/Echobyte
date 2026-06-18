@@ -372,7 +372,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const preview = footer.querySelector(".footer-preview");
   const large = footer.querySelector(".footer-large");
-  const previewH = preview ? preview.offsetHeight : 60;
+  const previewH = preview ? preview.getBoundingClientRect().height : 60;
   const largeH = large ? large.scrollHeight : 400;
   const totalH = previewH + largeH;
 
@@ -381,7 +381,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let expanded = false;
   let startY = 0;
 
-  const open = () => { expanded = true;  footer.style.height = totalH + "px"; };
+  const open = () => { expanded = true; footer.style.height = totalH + "px"; };
   const close = () => { expanded = false; footer.style.height = previewH + "px"; };
 
   const nearBottom = () => {

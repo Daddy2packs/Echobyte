@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Portfolio — Echobyte</title>
 <link rel="stylesheet" href="style.css">
 </head>
@@ -183,7 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const nearBottom = () => {
     const scrollable = document.documentElement.scrollHeight - window.innerHeight;
     if (scrollable <= 0) return true; // page fits in viewport — always "at bottom"
-    return window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 10;
+    return window.innerHeight + window.scrollY >=  document.documentElement.scrollHeight - 60;
   };
 
   // DESKTOP (mouse wheel)
