@@ -1189,8 +1189,7 @@ section {
   align-items: center;
   justify-content: center;
   border-bottom: 1px solid var(--border);
-  padding: 16px 20px 24px;
-  padding-bottom: calc(16px + env(safe-area-inset-bottom));
+  padding: 16px 20px 40px;
 }
 
 
