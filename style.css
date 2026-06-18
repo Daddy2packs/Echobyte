@@ -1177,7 +1177,7 @@ section {
 }
 
 .footer-reveal.expanded {
-  height: 700px;
+  height: var(--footer-expanded-height, 700px);
 }
 
 /* copyright bar */
@@ -1261,7 +1261,7 @@ section {
   }
 
   .footer-reveal.expanded {
-    height: 900px;
+    height: var(--footer-expanded-height, 700px);
   }
 
   .footer-preview {
