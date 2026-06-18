@@ -1260,10 +1260,6 @@ section {
     height: calc(60px + env(safe-area-inset-bottom));
   }
 
-  .footer-reveal.expanded {
-    height: var(--footer-expanded-height, 700px);
-  }
-
   .footer-preview {
     height: calc(60px + env(safe-area-inset-bottom));
     padding: 0 20px env(safe-area-inset-bottom);
