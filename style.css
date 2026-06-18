@@ -29,11 +29,9 @@ body {
   color: var(--text);
   overflow-x: hidden;
   line-height: 1.6;
-  display: flex;
-  min-height: 100vh;
 }
 .portfolio-page {
-  flex: 1;
+  min-height: calc(100vh - var(--nav-h) - 200px);
 }
 
 img { max-width: 100%; display: block; }
