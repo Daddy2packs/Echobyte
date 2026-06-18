@@ -1257,6 +1257,10 @@ section {
     grid-template-columns: 1fr;
     gap: 30px;
   }
+  .footer-preview {
+    min-height: 80px;
+    padding: 0 20px 20px;
+  }
 }
 
 /* ── Legal document pages ─────────────────────────── */
