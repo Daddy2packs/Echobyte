@@ -174,7 +174,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const preview = footer.querySelector(".footer-preview");
   const large = footer.querySelector(".footer-large");
-  const previewH = Math.max(preview ? preview.getBoundingClientRect().height : 60, 60);
+  const safeArea = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sat') || '0');
+const previewH = Math.max(preview ? preview.getBoundingClientRect().height : 60, 60) + safeArea;
   const largeH = large ? large.scrollHeight : 400;
   const totalH = previewH + largeH;
 
