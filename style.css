@@ -1175,15 +1175,12 @@ section {
 /* copyright bar */
 
 .footer-preview {
-  .footer-preview {
-  max-height: 56px;
+  min-height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-bottom: 1px solid var(--border);
   padding: 16px 20px;
-  padding-bottom: calc(16px + env(safe-area-inset-bottom));
-}
 }
 
 
@@ -1258,6 +1255,9 @@ section {
     grid-template-columns: 1fr;
     gap: 30px;
   }
+  .footer-preview {
+    min-height: calc(60px + env(safe-area-inset-bottom));
+    padding: 0 20px env(safe-area-inset-bottom);
 }
 
 /* ── Legal document pages ─────────────────────────── */
