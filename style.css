@@ -1176,7 +1176,7 @@ section {
 
 .footer-preview {
   .footer-preview {
-  min-height: 56px;
+  max-height: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
